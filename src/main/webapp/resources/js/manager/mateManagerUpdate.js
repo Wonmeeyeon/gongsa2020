@@ -143,7 +143,16 @@ $(function(){
 			var pRating = performance.rating;
 			var pRunningTime = performance.runningTime;
 			var pImg = performance.imagePath;
-			$('#pImg').attr('src','/resources/sample-images/'+pImg);
+			
+			var pImagePath = '';
+			if(pImg.substring(0,4) != 'http'){
+				pImagePath = '/resources/sample-images/'+pImg;
+			} else {
+				pImagePath = pImg;
+			}
+			$('#pImg').attr('src',pImagePath);
+			
+			
 			$('#pName').text(pTitle);
 			$('#pStartDate').text(pStartDate);
 			$('#pCat').text(pCat);
@@ -396,9 +405,18 @@ $(function(){
 						var hallId = list.seatPrices[0].infoId;
 						$('#hidden-hall-id').val(hallId);
 						
-						$pImg.attr('src','/resources/sample-images/'+imagePath);
+						var pImagePath = '';
+						if(imagePath.substring(0,4) != 'http'){
+							pImagePath = '/resources/sample-images/'+imagePath;
+						} else {
+							pImagePath = imagePath;
+						}
+						$pImg.attr('src',pImagePath);
 						$pName.text(title);
 						$pCat.text(cat);
+						if(rating == 0){
+							rating = '전체관람가'
+						}
 						$pAthu.text(rating);
 						
 						startDate = $.datepicker.formatDate('yy-mm-dd',new Date(startDate));
@@ -786,15 +804,9 @@ $(function(){
 				}
 				
 			})
-			
-			console.log($('#create-cat-val').val());
-		
 			$('#create-cat-val').val('');
-			$('#create-cat-val').hide();
 		}
 	})
-	
-	
 	
 })
 	function timeToSeconds(time) {

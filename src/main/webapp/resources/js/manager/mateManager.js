@@ -261,10 +261,18 @@ $(function(){
 						//hall_info_id
 						var hallId = list.hallInfoId;
 						$('#hidden-hall-id').val(hallId);
-						
-						$pImg.attr('src','/resources/sample-images/'+imagePath);
+						var pImagePath = '';
+						if(imagePath.substring(0,4) != 'http'){
+							pImagePath = '/resources/sample-images/'+imagePath;
+						} else {
+							pImagePath = imagePath;
+						}
+						$pImg.attr('src',pImagePath);
 						$pName.text(title);
 						$pCat.text(cat);
+						if(rating == 0){
+							rating = '전체관람가'
+						}
 						$pAthu.text(rating);
 						
 						startDate = $.datepicker.formatDate('yy-mm-dd',new Date(startDate));
@@ -315,6 +323,7 @@ $(function(){
 	var $tbody = $('#performance-list-content tbody');
 	var $tr = $('#performance-list-content tbody tr');
 	$('#performance-list-modal-btn').click(function(){
+		$tbody.empty();
 		$.ajax({
 			url:'/manager/mateManagerJson.do',
 			Type:'POST',
@@ -650,15 +659,9 @@ $(function(){
 				}
 				
 			})
-			
-			console.log($('#create-cat-val').val());
-		
 			$('#create-cat-val').val('');
-			$('#create-cat-val').hide();
 		}
 	})
-	
-	
 	
 })
 	function timeToSeconds(time) {

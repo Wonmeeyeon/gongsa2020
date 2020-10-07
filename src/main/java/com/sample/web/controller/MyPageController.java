@@ -54,13 +54,10 @@ public class MyPageController {
 
         model.addAttribute("user", user);
 
-        System.out.println(user.getLikes().size());
-
         model.addAttribute("lastReserve", reserve);
-        System.out.println(reserve.getId());
+        
         model.addAttribute("qnaList", qnaList);
-
-        System.out.println(qnaList.size());
+        
         return "mypage/mypagemain";
     }
 
@@ -106,6 +103,7 @@ public class MyPageController {
             System.out.println(reserve.getMate().getCategory());
             System.out.println(reserve.getMate().getMateTags().size());
         }
+        model.addAttribute("PerformanceMain", reserveService.getPerformanceMainByReserveId(reserve.getId()));
         // payment
         Payment payment = paymentService.getPaymentByReserveId(id);
         model.addAttribute("payment", payment);

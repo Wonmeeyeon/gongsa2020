@@ -46,9 +46,18 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-3">
-                                    <img style="width: 200px; height: 200px;"
-                                         src="/resources/sample-images/${performance.imagePath}"
+                                <c:choose>
+                                	<c:when test="${fn:substring(performance.imagePath,0,4 ) eq 'http'}">
+                                		<c:set var="path" value="${performance.imagePath }" />
+                                	</c:when>
+                                	<c:otherwise>
+                                		<c:set var="path" value="/resources/sample-images/${performance.imagePath}" />
+                                	</c:otherwise>
+                                </c:choose>
+                                    <img style="width: 200px; height: 200px;" 
+                                         src="${performance.imagePath}"
                                          class="rounded float-left" alt="...">
+
                                 </div>
                                 <div class="col-9">
                                     <div class="row">
@@ -76,8 +85,7 @@
                                                             <i class="far fa-calendar-alt"></i> <span>관람일</span>
                                                             <div>
                                                                 <span><fmt:formatDate value="${performance.startDate}"
-                                                                                      pattern="yyyy.MM.dd"/></span>
-                                                                <span>~</span>
+                                                                                      pattern="yyyy.MM.dd"/> </span>
                                                                 <span><fmt:formatDate value="${performance.endDate}"
                                                                                       pattern="yyyy.MM.dd"/></span>
                                                             </div>
@@ -126,7 +134,12 @@
                     <div class="mypage-card-header mt-3 ">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="font-weight-bold">메이트 티켓</h2>
+                                <h2 class="font-weight-bold">메이트 티켓
+                                	<c:if test="${empty mate }">
+                                		<a class="btn btn-outline-danger" href="/mate/mate.do?pid=${PerformanceMain.id }">메이트 찾기</a>
+                                	</c:if>
+
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -181,10 +194,7 @@
                                                     <c:forEach
                                                             items="${fn:split(mate.seatGroup, fn:substring(mate.seatGroup,0 ,1 ))}"
                                                             varStatus="now" var="seatno">
-                                                        <span>${fn:substring(mate.seatGroup,0 ,1 )}${seatno}</span>
-                                                        <c:if test="${now.count eq 1}">
-                                                            <span> ~ </span>
-                                                        </c:if>
+                                                        <span>${fn:substring(mate.seatGroup,0 ,1 )}${seatno} </span>
                                                     </c:forEach>
                                                 </div>
                                             </div>
